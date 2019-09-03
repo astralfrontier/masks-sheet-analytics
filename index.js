@@ -37,7 +37,8 @@ const getAccessToken = oAuth2Client =>
     });
   });
 
-(async () => {
+// Return an OAuth2 instance
+const readCredentials = async () => {
   const credentials = await fs.readJson(CREDENTIALS_PATH);
   const { client_secret, client_id, redirect_uris } = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
@@ -52,8 +53,11 @@ const getAccessToken = oAuth2Client =>
     token = await getAccessToken(oAuth2Client);
   }
   oAuth2Client.setCredentials(token);
+  return oAuth2Client;
+};
 
-  // Operation goes here
-  const drive = google.drive({ version: "v3", auth: oAuth2Client });
+(async () => {
+  const auth = await readCredentials();
+  const drive = google.drive({ version: "v3", auth });
   await readRevisions(drive);
 })().catch(console.error);

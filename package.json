@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/astralfrontier/masks-sheet-analytics#readme",
   "dependencies": {
+    "csv-parser": "^2.3.0",
     "fs-extra": "^8.1.0",
     "googleapis": "^39.2.0",
+    "neat-csv": "^5.1.0",
     "ramda": "^0.26.1"
   },
   "devDependencies": {
