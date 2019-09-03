@@ -6,6 +6,13 @@ const SCOPES = ["https://www.googleapis.com/auth/drive.metadata.readonly"];
 const CREDENTIALS_PATH = "credentials.json";
 const TOKEN_PATH = "token.json";
 
+const fileId = "1ufjVZjyfCLAQHYmJSFUq0uEnji2SVH9nFF7q_weipCc"; // The Sycamour sheet ID
+
+const readRevisions = async drive => {
+  const res = await drive.revisions.list({ fileId });
+  console.log(res.data);
+};
+
 const getAccessToken = oAuth2Client =>
   new Promise((resolve, reject) => {
     const authUrl = oAuth2Client.generateAuthUrl({
@@ -46,11 +53,7 @@ const getAccessToken = oAuth2Client =>
   }
   oAuth2Client.setCredentials(token);
 
-  // Read files
+  // Operation goes here
   const drive = google.drive({ version: "v3", auth: oAuth2Client });
-  const res = await drive.files.list({
-    pageSize: 10,
-    fields: "nextPageToken,files(id, name)"
-  });
-  console.log(res.data.files);
+  await readRevisions(drive);
 })().catch(console.error);
